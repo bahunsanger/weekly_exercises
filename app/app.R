@@ -22,9 +22,9 @@ ui <- fluidPage("US Covid19 Cases",
    
 server <- function(input, output) 
     {output$covid19 <- renderPlot(covid19 %>% 
-                                filter(state %in% input$state) %>% 
-                                mutate(cases_20 = cases > 20) %>% 
-                                ggplot(aes(x = date, y = cases_20, color = state)) +
+                                filter(cases > 20, state %in% input$state) %>% 
+                                mutate(date_20_plus = date - min(date)) %>% 
+                                ggplot(aes(x = date_20_plus, y = cases, color = state)) +
                                 geom_line() +
                                 scale_y_log10() +
                                 theme_tufte() +
